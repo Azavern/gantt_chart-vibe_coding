@@ -1,0 +1,32 @@
+{
+  "name": "gantt-project-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplikasi manajemen proyek Gantt Chart (React + Express + Prisma/SQLite)",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "npm run build -w @gantt/shared && concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev -w @gantt/server",
+    "dev:client": "npm run dev -w @gantt/client",
+    "prebuild": "npm run build -w @gantt/shared",
+    "build": "npm run build -w @gantt/server && npm run build -w @gantt/client",
+    "pretypecheck": "npm run build -w @gantt/shared",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "pretest": "npm run build -w @gantt/shared",
+    "test": "npm run test --workspaces --if-present",
+    "db:migrate": "npm run db:migrate -w @gantt/server",
+    "db:seed": "npm run db:seed -w @gantt/server",
+    "db:reset": "npm run db:reset -w @gantt/server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

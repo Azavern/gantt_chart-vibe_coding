@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Token warna dipakai lewat Tailwind; variabel di bawah untuk SVG dan turunan. */
+  --brand-600: #0d9488;
+  --brand-700: #0f766e;
+  --ink: #0f172a;
+  --ink-2: #475569;
+  --ink-3: #64748b;
+  --line: #e2e8f0;
+  --surface: #ffffff;
+  --canvas: #f6f8fa;
+
+  color-scheme: light;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1 {
+    @apply text-2xl font-bold tracking-tight sm:text-3xl;
+  }
+
+  h2 {
+    @apply text-xl font-semibold tracking-tight sm:text-2xl;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-600 ring-offset-2 ring-offset-surface;
+  }
+
+  /* Angka rupiah dan tanggal tetap rapi sejajar. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-md border border-line bg-surface shadow-sm;
+  }
+
+  .muted {
+    @apply text-sm text-ink-3;
+  }
+}
+
+/* Scrollbar tipis untuk panel tabel dan timeline Gantt. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.scroll-slim::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 160ms ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 140ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-toast-in,
+  .animate-fade-in {
+    animation: none;
+  }
+}

@@ -1,0 +1,116 @@
+// Skema data (blueprint bagian 5). Semua id berupa cuid, tanggal disimpan sebagai
+// string ISO YYYY-MM-DD, dan kolom enum memakai String yang divalidasi zod.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  projects     Project[]
+}
+
+model Project {
+  id           String       @id @default(cuid())
+  ownerId      String
+  owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  startDate    String
+  weekendDays  String       @default("0,6")
+  createdAt    DateTime     @default(now())
+  tasks        Task[]
+  dependencies Dependency[]
+  resources    Resource[]
+  holidays     Holiday[]
+
+  @@index([ownerId])
+}
+
+model Holiday {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  date      String
+  name      String
+
+  @@unique([projectId, date])
+  @@index([projectId])
+}
+
+model Task {
+  id              String       @id @default(cuid())
+  projectId       String
+  project         Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  parentId        String?
+  parent          Task?        @relation("TaskChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children        Task[]       @relation("TaskChildren")
+  position        Int          @default(0)
+  name            String
+  description     String?
+  durationDays    Int
+  startDate       String
+  scheduledStart  String
+  scheduledEnd    String
+  priority        String       @default("MEDIUM")
+  color           String       @default("#0D9488")
+  progress        Int          @default(0)
+  optimisticDays  Int?
+  pessimisticDays Int?
+  predecessors    Dependency[] @relation("Predecessor")
+  successors      Dependency[] @relation("Successor")
+  assignments     Assignment[]
+
+  @@index([projectId])
+  @@index([parentId])
+}
+
+model Dependency {
+  id            String  @id @default(cuid())
+  projectId     String
+  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  predecessorId String
+  predecessor   Task    @relation("Predecessor", fields: [predecessorId], references: [id], onDelete: Cascade)
+  successorId   String
+  successor     Task    @relation("Successor", fields: [successorId], references: [id], onDelete: Cascade)
+  type          String  @default("FS")
+  lagDays       Int     @default(0)
+
+  @@unique([predecessorId, successorId])
+  @@index([projectId])
+}
+
+model Resource {
+  id          String       @id @default(cuid())
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name        String
+  email       String
+  role        String
+  salary      Int
+  assignments Assignment[]
+
+  @@index([projectId])
+}
+
+model Assignment {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  resourceId        String
+  resource          Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  allocationPercent Int      @default(100)
+
+  @@unique([taskId, resourceId])
+  @@index([taskId])
+  @@index([resourceId])
+}

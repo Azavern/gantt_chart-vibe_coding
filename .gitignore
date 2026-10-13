@@ -1,0 +1,30 @@
+# Dependensi
+node_modules/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment (jangan pernah di-commit)
+.env
+.env.local
+.env.*.local
+
+# Database SQLite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Coverage dan cache
+coverage/
+.vite/
+.cache/
+
+# OS dan editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
