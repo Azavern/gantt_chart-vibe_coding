@@ -73,6 +73,46 @@ Vite mem-proxy `/api` ke server, jadi cukup membuka alamat antarmuka.
 **Akun demo:** `demo@example.com` / `Demo12345` (memiliki proyek contoh
 "Pengembangan Aplikasi Mobile Toko Online" berisi 17 tugas, 4 anggota tim, dan 2 hari libur).
 
+![Halaman login](ui/login_page.png)
+
+## Tampilan antarmuka
+
+Tangkapan layar di bawah diambil dari aplikasi yang berjalan dengan data contoh.
+Berkasnya ada di folder [`ui/`](ui/).
+
+### Beranda
+
+Halaman pertama setelah masuk: daftar proyek pengguna, tempat proyek dibuat, dibuka, atau dihapus.
+
+![Beranda](ui/homepage.png)
+
+### Membuat proyek
+
+Dialog **Proyek baru** dari tombol di beranda: nama, deskripsi, tanggal mulai, dan pilihan hari akhir pekan.
+
+![Dialog membuat proyek](ui/popup_create_project.png)
+
+### Halaman Gantt
+
+Tabel tugas (WBS, durasi, progres) berdampingan dengan timeline SVG: bar tugas dan induk, panah
+dependensi, arsiran akhir pekan dan hari libur, garis hari ini, zoom, serta sorotan jalur kritis.
+
+![Halaman Gantt](ui/projects-gantt_page.png)
+
+### Halaman Tim
+
+Anggota tim beserta peran dan gaji, alokasi ke tugas dalam persen, biaya per tugas dan per anggota,
+serta peringatan over-alokasi.
+
+![Halaman tim](ui/projects-team_page.png)
+
+### Halaman Analisis
+
+Ringkasan proyek, tabel CPM (ES, EF, LS, LF, float), daftar jalur kritis, diagram PERT,
+biaya proyek, dan beban kerja tim.
+
+![Halaman analisis](ui/projects-analysis_page.png)
+
 ## Test dan build
 
 ```bash
@@ -95,6 +135,7 @@ npm run db:reset    # hapus database, migrasi ulang, lalu seed
 ## Struktur repository
 
 ```
+├─ ui/            tangkapan layar antarmuka untuk README
 ├─ shared/src/    dates, calendar, scheduler, cpm, pert, cost, schemas, types (+ *.test.ts)
 ├─ server/
 │   ├─ prisma/    schema.prisma, migrations/, seed.ts

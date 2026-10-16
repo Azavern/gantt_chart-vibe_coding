@@ -58,9 +58,9 @@ verifikasinya benar-benar dijalankan dan hasilnya lolos.
 
 ## Fase 6 — Push ke GitHub
 
-- [ ] URL repository dari manusia
-- [ ] Commit lokal dibuat (`git log` menunjukkan commit awal)
-- [ ] `git push -u origin main`
+- [x] URL repository dari manusia
+- [x] Commit lokal dibuat (`git log` menunjukkan commit awal)
+- [x] `git push -u origin main`
 
 ---
 
